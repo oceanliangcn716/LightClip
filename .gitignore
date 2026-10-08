@@ -1,0 +1,21 @@
+.tools/
+dist/
+windows/bin/
+windows/obj/
+tests/bin/
+tests/obj/
+pairing/target/
+windows/native/*.dll
+.DS_Store
+
+# Local settings, encrypted key blobs and developer secrets never belong in Git.
+.env
+.env.*
+*.dpapi
+*.p12
+*.pfx
+*.key
+*.user
+# Superseded local handoff notes; use the current group/files handoff instead.
+给PC上Codex的提示词.md
+给PC上Codex的图片修复提示词.md

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <title>LightClip</title>
+  <desc>Rounded blue and teal square with a white clipboard and restrained two-way sync arrows.</desc>
+  <defs>
+    <linearGradient id="background" x1="96" y1="80" x2="928" y2="944" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#176FD2"/>
+      <stop offset="0.52" stop-color="#168FCB"/>
+      <stop offset="1" stop-color="#11B29F"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="348" y1="232" x2="676" y2="786" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EEF8FA"/>
+    </linearGradient>
+    <filter id="paperShadow" x="246" y="160" width="532" height="672" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#073C74" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect x="40" y="40" width="944" height="944" rx="236" fill="url(#background)"/>
+  <rect x="40.75" y="40.75" width="942.5" height="942.5" rx="235.25" stroke="#FFFFFF" stroke-opacity="0.17" stroke-width="1.5"/>
+
+  <!-- The arrows stay behind the clipboard so the mark remains quiet at small sizes. -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.88">
+    <path d="M687 306C814 294 900 372 900 486"/>
+    <path d="M900 486L844 446M900 486L892 415"/>
+    <path d="M337 718C211 728 126 651 143 540"/>
+    <path d="M143 540L204 549M143 540L170 596"/>
+  </g>
+
+  <g filter="url(#paperShadow)">
+    <path d="M329 264C329 237.49 350.49 216 377 216H647C673.51 216 695 237.49 695 264V731C695 757.51 673.51 779 647 779H377C350.49 779 329 757.51 329 731V264Z" fill="url(#paper)"/>
+    <path d="M424 191C424 169.46 441.46 152 463 152H561C582.54 152 600 169.46 600 191V254H424V191Z" fill="#FFFFFF"/>
+    <rect x="469" y="184" width="86" height="34" rx="17" fill="#176FD2" fill-opacity="0.92"/>
+  </g>
+
+  <g fill="#168FCB" fill-opacity="0.92">
+    <rect x="392" y="363" width="240" height="30" rx="15"/>
+    <rect x="392" y="440" width="188" height="30" rx="15"/>
+    <rect x="392" y="517" width="222" height="30" rx="15"/>
+  </g>
+  <rect x="392" y="624" width="128" height="24" rx="12" fill="#11B29F" fill-opacity="0.76"/>
+</svg>

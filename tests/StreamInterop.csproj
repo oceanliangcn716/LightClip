@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="StreamInterop.cs" />
+    <Compile Include="../windows/StreamProtocol.cs" Link="StreamProtocol.cs" />
+    <Compile Include="../windows/StreamTransfer.cs" Link="StreamTransfer.cs" />
+  </ItemGroup>
+</Project>

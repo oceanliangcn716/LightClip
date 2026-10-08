@@ -1,0 +1,18 @@
+[package]
+name = "lightclip-pairing"
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+spake2 = "=0.4.0"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
