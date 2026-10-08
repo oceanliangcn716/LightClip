@@ -11,6 +11,8 @@ windows/**/obj/
 windows/artifacts/
 windows/LightClip.Group/native/*.dll
 .DS_Store
+__pycache__/
+*.pyc
 
 # Local settings, encrypted key blobs and developer secrets never belong in Git.
 .env

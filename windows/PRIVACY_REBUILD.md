@@ -1,8 +1,10 @@
-# Windows 运行包编译路径脱敏
+# Windows 后续源码构建的路径脱敏检查
 
-Mac 审查发现原 `lightclip_pairing.dll` 含三条 Rust 依赖源码个人目录路径。源码已经导入主仓库；当前不发布原运行 ZIP。修正仅涉及编译和打包，不改协议、功能、文件上限或既有用户配对。
+当前可下载的 Windows 运行包已在 Mac 完成原 DLL 源位置元数据的等长脱敏和全包检查，普通用户不需要开 PC 重建。方法、新哈希及 Windows 真机复测边界见根目录 `WINDOWS_IMPORT_REVIEW.md`。
 
-## PC 上执行
+本文仅供开发者以后修改源码、重新生成运行包时参考。`windows/build.ps1` 已加入 Rust 路径映射，避免新构建再次含个人目录；此修改脚本尚未在真实 Windows 执行验证，不是当前发布包的生成方式。
+
+## 开发者以后在 Windows 从源码构建
 
 1. 使用最新 `windows/build.ps1`。如在原 PC 工程工作，把此脚本放在 `LightClip.Group`、`LightClip`、`pairing`、`tests` 的共同父目录。不要用旧一对一草稿覆盖生产程序。
 2. 在该目录运行 `pwsh -File ./build.ps1 -RebuildNative`；若没有 pwsh，使用现有 Windows PowerShell 执行等价命令，不修改全局执行策略。脚本需要原有 .NET 10 SDK、Rust MSVC、x64 target、MSVC Build Tools 和 Windows SDK。
@@ -12,4 +14,4 @@ Mac 审查发现原 `lightclip_pairing.dll` 含三条 Rust 依赖源码个人目
 6. 打包完整自包含输出目录，包含运行时、资源目录、图标、native DLL、说明和第三方声明。新 Windows 运行 ZIP 的版本可保持 0.3.0；不要仅打包 EXE，也不要带入 profile、DPAPI、日志、接收缓存、真实路径或剪贴板数据。
 7. 更新运行包和完整交接包的 SHA-256 清单及验证 JSON，记录新的 DLL/EXE 哈希、实际重跑项目与未测边界。原来的 81/23/22 项、5 GiB 回环等若未重跑，应明确标为旧二进制基线。
 
-返回一份 `LightClip-Windows-0.3.0-完整交接包-脱敏版.zip`，包含修正源码、完整 Windows x64 运行 ZIP、校验清单及精简验证记录。不要返回或公开实际个人路径值。Mac 应用和现有配对不需要修改。
+开发者发布新构建时应包含完整 Windows x64 运行 ZIP、校验清单及精简验证记录，不要公开实际个人路径值。当前 release 已提供脱敏运行包，不需要用户返回新的交接包；Mac 应用和现有配对不需要修改。

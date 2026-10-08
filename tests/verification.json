@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-08",
+  "date": "2026-10-09",
   "version": "0.3.1",
   "scope": "Public synthetic fixtures and sanitized summaries only. Mac agent uses isolated named pasteboards and loopback TCP/UDP. Actual Windows runtime results are supplied by the PC handoff and labeled separately; the Mac agent did not control the Windows host.",
-  "two_computer_isolation_acceptance": "NOT RUN. PC group UI, actual cross-machine discovery/DHCP/reboot and Windows runtime memory remain unverified. Keep CrossPaste stopped on both devices and run pause negative controls before attributing success.",
+  "two_computer_isolation_acceptance": "NOT COMPLETED. User reports real bidirectional text/image/file use, with PC-supplied original Windows runtime tests recorded below. Mac agent did not observe the physical Windows host or the pause negative matrix; actual DHCP/reboot, second physical PC and precise cross-machine limits remain unverified.",
   "swift_self_test": "PASS: crypto/validation/replay; isolated text, PNG/TIFF/NSImage consumers, alpha/color, TIFF to PNG, image priority, single PNG/JPEG file-copy, multi-file/non-image/directory/concealed exclusion, echo suppression.",
   "group_self_test": "PASS twice after listener restart fix: actual PAKE network correct/wrong/expired codes, persist-before-done, one-use invitation, confirmation/tamper/group binding, text and image fanout to two recipients, partial delivery when one is offline, endpoint change, pause/resume retained replay protection, UDP actual source address/name/group updates/invalid packets/20-second expiry.",
   "listener_restart_fix": "Confirmed POSIX EADDRINUSE immediately after cancelling old NWListener. New shared listener retries only this error, up to eight attempts 250ms apart; cancellation generation prevents stale retries.",
@@ -35,9 +35,9 @@
   "stream_csharp_native": "PASS: codec/limits/wrong key/tamper/stale/path rejection, deterministic actual multi-block file+empty-file sender/receiver, cleanup of owned UUID temporary directories while preserving completed/unrelated directories. C# runs on Mac SDK.",
   "stream_csharp_text": "PASS: exact 10MiB text sent and received by C# stream core; not WinForms STA clipboard.",
   "crosspaste": "All automated tests use named pasteboards and independent loopback ports. CrossPaste isolation on the actual Windows host was not observed by this agent; real-device acceptance still requires the documented pause negative controls.",
-  "user_reported_cross_machine": "2026-10-08: user reports the actual PC was upgraded and bidirectional file copy/paste works. Agent did not observe the PC, payload size, CrossPaste negative controls or full acceptance matrix; PC final source not yet merged into this repository.",
+  "user_reported_cross_machine": "2026-10-08: user reports the actual PC was upgraded and bidirectional file copy/paste works. Agent did not observe the PC, payload size, CrossPaste negative controls or full acceptance matrix. PC final source was subsequently imported and the Windows runtime metadata sanitized; no post-redaction Windows execution is claimed.",
   "release_build": "PASS: Swift explicit macOS14.0 target and MACOSX_DEPLOYMENT_TARGET14.0; Mach-O LC_BUILD_VERSION minos14.0 matches bundle metadata. arm64 build compiled and signature checked; macOS14 actual host and Intel runtime not tested. Installed 0.3.1/build5 has LSUIElement=true. Rust and Swift local build paths remapped; stripped debug-location symbols; release executable scan found no embedded local user-directory paths.",
-  "release_scope": "Private preview: Mac 0.3.1 binary plus imported Windows 0.3.0 complete group source. Original Windows runtime ZIP is withheld because native pairing DLL contains three personal Rust build paths. Patched build script needs PC rebuild/validation before an executable asset can be published.",
+  "release_scope": "Private cross-platform preview: unchanged Mac0.3.1/build5 arm64 runtime, Windows0.3.0 x64 self-contained metadata-sanitized runtime, and complete source. Original unsanitized Windows runtime is not uploaded. No Windows post-redaction runtime execution; original PC tests remain the baseline.",
   "mac_menu_bar_mode": {
     "version": "0.3.1/build5",
     "runtime_activation_policy": "PASS: NSWorkspace reports the installed running application activationPolicy == accessory, active == false after hiding. This macOS policy excludes the Dock icon.",
@@ -78,10 +78,80 @@
       "extra": 6
     },
     "pc_reported_big_transfer": "Complete 5GiB Windows loopback transfer, SHA and done, 45.45 seconds. Reported by PC; not rerun by Mac agent and not a Mac-Windows network benchmark.",
-    "privacy_issue": "Three personal Windows user-directory paths in native DLL .rdata Rust source-location strings; same DLL is included in portable ZIP. No values are copied into this record. Raw DLL/runtime ZIP and raw operational JSON are not uploaded.",
-    "remediation": "windows/build.ps1 now uses encoded rustflags for source-path remapping, preserves static CRT and rejects native DLLs with personal user-directory prefixes. Real PC rebuild/native tests and fresh package hashes required.",
+    "privacy_issue": "Original DLL had three personal Windows user-prefix paths in .rdata Rust source filenames. No values retained here. Original raw package and DLL remain local; the published runtime has equal-length metadata redaction and fresh hashes.",
+    "remediation": "Completed on Mac with tools/sanitize_windows_release.py: three source-filename prefixes, 45 non-executable bytes, 10 verified Rust source-location references. Machine code, EXE, PE headers/directories and 274 other original files are byte-identical. Future source builds use windows/build.ps1 Rust path remapping; that updated source-build script has not been executed on Windows.",
     "not_verified": "Real pause negative matrix, second physical PC, actual DHCP/reboot/sleep, and cross-machine exact 10MiB/5GiB limits are not a completed acceptance matrix.",
     "pc_reported_group_version": "81-check group-regression JSON retains historical0.2.0; not claimed as a complete0.3.0 rerun.",
     "pc_reported_image_scope": "Actual image use is user reported; retained metadata window lacks a separate kind=2 event."
+  },
+  "windows_release_sanitization": {
+    "method": "Equal-length redaction of three Rust source filename user prefixes",
+    "original_dll_sha256": "bf8b345f27601b875831ad1e74618b248949616ea3f18a8a87290afde0ed0a27",
+    "sanitized_dll_sha256": "724cc9c32727ec7da653ca9d814541576c6ae1a5201da78398e6d5a4e82cef77",
+    "dll_size_unchanged": true,
+    "redacted_prefixes": 3,
+    "changed_byte_count": 45,
+    "rust_location_references_verified": 10,
+    "pe_headers_and_all_data_directories_unchanged": true,
+    "section_hashes": [
+      {
+        "name": ".text",
+        "executable": true,
+        "unchanged": true,
+        "before_sha256": "d3b68f2817315f3917a9e4caae9da1296487560c03e241d13914a8703a26611c",
+        "after_sha256": "d3b68f2817315f3917a9e4caae9da1296487560c03e241d13914a8703a26611c"
+      },
+      {
+        "name": ".rdata",
+        "executable": false,
+        "unchanged": false,
+        "before_sha256": "c567e8b5b29e4f05ea4760f371d73f455d9703a4b3ba74081106a321db4bcabb",
+        "after_sha256": "1389528e391c6172f9c8d01356f68aca8efe7c8b7c56a9208dbcfe44ca38486a"
+      },
+      {
+        "name": ".data",
+        "executable": false,
+        "unchanged": true,
+        "before_sha256": "b35aa32dcad3f8104632259131b553cffd465e11896c81c9d6e54be76093d3da",
+        "after_sha256": "b35aa32dcad3f8104632259131b553cffd465e11896c81c9d6e54be76093d3da"
+      },
+      {
+        "name": ".pdata",
+        "executable": false,
+        "unchanged": true,
+        "before_sha256": "da8ec903cfaccc218406bfb1280c5ba663fca1003282197aec133b4f3584d1cc",
+        "after_sha256": "da8ec903cfaccc218406bfb1280c5ba663fca1003282197aec133b4f3584d1cc"
+      },
+      {
+        "name": ".fptable",
+        "executable": false,
+        "unchanged": true,
+        "before_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+        "after_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560"
+      },
+      {
+        "name": ".reloc",
+        "executable": false,
+        "unchanged": true,
+        "before_sha256": "37dd1e15aab288a02b1812d1d917929ac2c1f78085027bca2ece3076e0a54f7d",
+        "after_sha256": "37dd1e15aab288a02b1812d1d917929ac2c1f78085027bca2ece3076e0a54f7d"
+      }
+    ],
+    "date": "2026-10-08",
+    "version": "Windows0.3.0",
+    "architecture": "win-x64",
+    "original_runtime_zip_sha256": "6122fc5a3f68c861fd2cb57402607d294e27773df51212205f18426dbae3d64b",
+    "exe_sha256_unchanged": "d564e1d6d18a1b05d6ed6cfabd05ae5b64ec19a673f859602c8f395ba9bacec8",
+    "original_files": 275,
+    "original_files_unchanged": 274,
+    "added_file": "RELEASE_PRIVACY_VERIFICATION.json",
+    "code_signing": "Unsigned, unchanged",
+    "windows_execution_after_redaction": false,
+    "validation_boundary": "PC-provided runtime tests remain the original baseline. Mac performed metadata-only redaction and byte/PE/ZIP/privacy checks; no Windows runtime execution is claimed.",
+    "output_runtime_zip_sha256": "3d9b622c9505b5efacaccb7f6acd658b1f19ddad1d613102331974c9cea4c9cc",
+    "output_runtime_zip_bytes": 50467626,
+    "full_package_privacy_scan": "PASS: all276 entries; UTF8, aligned/unaligned UTF16LE/BE; no personal directory, credential patterns, private config/cache/PDB entries found",
+    "guard_tests": "PASS: reject modified code, non-original DLL, output=input and report=input",
+    "independent_review": "PASS: read-only second-agent review of sanitizer, exact runtime file comparison, PE executable sections/import/export/data directories, ZIP integrity and user-path scan. ZIP recompression changes container bytes and some attributes; runtime file contents remain as documented."
   }
 }

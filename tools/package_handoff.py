@@ -15,7 +15,7 @@ paths = [root / name for name in (
     "pairing/Cargo.toml", "pairing/Cargo.lock", "pairing/build-windows.ps1",
     "pairing/src/lib.rs", "pairing/include/LightClipPairing.h",
     "tests/verification.json", "tests/双机隔离验收.md",
-    "tools/render_icon.swift", "tools/package_handoff.py",
+    "tools/render_icon.swift", "tools/package_handoff.py", "tools/sanitize_windows_release.py",
 )]
 for directory, patterns in (
     ("mac", ("*.swift",)),
