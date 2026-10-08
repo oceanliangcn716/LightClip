@@ -7,6 +7,7 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <AssemblyName>LightClip.Windows</AssemblyName>
     <RootNamespace>LightClip.Windows</RootNamespace>
     <ApplicationIcon>..\assets\LightClip.ico</ApplicationIcon>
@@ -14,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Program.cs;Protocol.cs;PairingCrypto.cs;StreamProtocol.cs;StreamTransfer.cs" />
     <None Include="..\assets\LightClip.ico" Link="LightClip.ico" CopyToOutputDirectory="PreserveNewest" />
     <None Include="native\lightclip_pairing.dll" Link="lightclip_pairing.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Condition="Exists('native\lightclip_pairing.dll')" />
     <None Include="..\THIRD_PARTY_NOTICES.txt" Link="THIRD_PARTY_NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

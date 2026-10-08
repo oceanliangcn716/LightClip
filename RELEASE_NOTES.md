@@ -1,6 +1,8 @@
 # LightClip 0.3.1 / build 5
 
-本版本提供 Mac 顶部菜单栏常驻客户端、跨平台协议、Windows 共享组件和参考客户端，以及 Windows 合并对接材料。PC 上最终群组客户端源码尚未并入，当前不发布 Windows 最终 EXE。
+本版本提供 Mac 顶部菜单栏常驻客户端和跨平台协议。最新仓库已导入 PC 提供的 Windows 0.3.0 完整群组源码；生产入口为 `windows/LightClip.Group/LightClip.Group.csproj`。
+
+Windows x64 自包含运行包已收到，外层 52 个校验值及内部 ZIP 完整性通过；native 配对 DLL 中仍有三条 Rust 编译个人目录路径，所以原 Windows 运行包没有上传。已补上构建路径映射和发布前检查，待 PC 重新构建及验证后再提供 Windows EXE。当前 release 中的旧 Windows handoff ZIP 仅为历史开发者参考资料。详情见最新仓库的 `WINDOWS_IMPORT_REVIEW.md`。
 
 - Mac 采用 accessory / `LSUIElement` 菜单栏常驻模式，不显示 Dock 图标；已有群组启动时不自动弹出设置窗口。
 - 首次使用或读取已保存配对失败时显示设置窗口；设置窗口关闭后同步继续，用户可以从菜单栏重新打开设置。

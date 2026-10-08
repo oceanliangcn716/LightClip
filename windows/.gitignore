@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+**/target/
+artifacts/
+.vs/
+*.user
+*.suo
+*.dpapi
+.env
+.env.*
+profile.json
+settings.json
+ReceivedFiles/
+*.log

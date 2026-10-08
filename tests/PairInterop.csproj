@@ -9,9 +9,9 @@
 
   <ItemGroup>
     <Compile Include="PairInterop.cs" />
-    <Compile Include="../windows/PairingCrypto.cs" Link="PairingCrypto.cs" />
+    <Compile Include="../windows/LightClip.Group/PairingCrypto.cs" Link="PairingCrypto.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="../windows/native/lightclip_pairing.dll" Link="lightclip_pairing.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('../windows/native/lightclip_pairing.dll')" />
+    <None Include="../windows/LightClip.Group/native/lightclip_pairing.dll" Link="lightclip_pairing.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('../windows/LightClip.Group/native/lightclip_pairing.dll')" />
   </ItemGroup>
 </Project>

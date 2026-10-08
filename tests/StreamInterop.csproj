@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="StreamInterop.cs" />
-    <Compile Include="../windows/StreamProtocol.cs" Link="StreamProtocol.cs" />
-    <Compile Include="../windows/StreamTransfer.cs" Link="StreamTransfer.cs" />
+    <Compile Include="../windows/LightClip.Group/StreamProtocol.cs" Link="StreamProtocol.cs" />
+    <Compile Include="../windows/LightClip.Group/StreamTransfer.cs" Link="StreamTransfer.cs" />
   </ItemGroup>
 </Project>

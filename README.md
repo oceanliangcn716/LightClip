@@ -9,10 +9,11 @@
 | 部分 | 状态 |
 |---|---|
 | Mac 客户端 | 0.3.1 / build 5 菜单栏应用，群组配对、文字/图片/文件同步 |
-| Windows 共享组件 | 内容协议、配对桥、文件流及跨语言测试 |
-| Windows UI 参考实现 | 可编译的一对一 WinForms 参考版；不是 PC 上已修改的最终群组客户端 |
+| Windows 群组客户端 | PC 交接的 0.3.0 完整 WinForms/Win32 实现，入口为 `windows/LightClip.Group/LightClip.Group.csproj` |
+| Windows 共享组件及测试 | 已导入 PC 群组、剪贴板、流式与互操作夹具；配对和流式共享类与原实现逐字节一致 |
+| 旧 Windows UI 参考实现 | `windows/LightClip.Windows.csproj` 及同目录旧草稿仅保留作历史参考，不能作为生产入口 |
 
-用户已反馈在自己的 Mac 与升级后的 PC 之间双向文件传输可用。这个反馈尚未替代项目的完整验收矩阵；PC 上最终客户端源码尚未合并到本仓库。仓库中的 Windows 参考实现和交接提示词用于合并对接，不能直接替换已完成群组功能的 PC 客户端。
+用户已反馈在自己的 Mac 与升级后的 PC 之间双向文件传输可用。2026-10-08 收到的 PC 完整源码已经导入；其 Windows x64 自包含运行包暂缓上传，因为 native 配对 DLL 含有三条 Rust 编译个人目录路径，需要在 PC 上按更新后的构建脚本重新构建和验证。详见 [`WINDOWS_IMPORT_REVIEW.md`](WINDOWS_IMPORT_REVIEW.md)。当前 GitHub 旧 Windows handoff 附件仍是开发者参考资料，不是可安装版本。
 
 ## 从源码构建
 
@@ -24,7 +25,7 @@ zsh build-mac.sh
 
 产物是 `dist/轻剪.app`，按构建机器生成 arm64 或 x86_64 程序；当前提供的 Mac 二进制为 **Apple Silicon / arm64**。Swift 的部署目标、Rust 部署环境及应用最低系统标注统一为 macOS 14.0；当前运行测试在开发机完成，macOS 14 真机和 Intel Mac 尚未运行验证。构建结果为临时签名，不包含 Apple 公证或发布证书。升级已有本地安装时，macOS 可能要求重新确认钥匙串访问。
 
-Windows 参考源码需要 .NET 10 SDK；native 配对桥还需要官方 Rust MSVC 工具链和对应 Visual C++ 构建工具。`pairing/build-windows.ps1 -Architecture x64` 或 `arm64` 构建匹配架构的 native DLL，再运行 `dotnet build windows/LightClip.Windows.csproj`。这是开发者参考构建，完整群组客户端应合并实际 PC 代码后再发布；本次未提供 Windows 最终 EXE。
+Windows 完整群组客户端需要 .NET 10 SDK、官方 Rust MSVC 工具链、`x86_64-pc-windows-msvc` target、Visual C++ 构建工具和 Windows SDK。在 Windows 仓库根目录运行 `pwsh -File windows/build.ps1 -RebuildNative`，生成 x64 自包含运行目录。构建脚本映射 Rust 编译路径并检查 native DLL 不含个人用户目录。仓库不提交预编译 DLL；修改后的脚本仍需在真实 PC 执行验证。当前没有 ARM64 Windows 运行包，也尚未上传修正后的 x64 运行包。
 
 本机独立测试不会读取真实剪贴板内容或使用真实群组密钥：
 
@@ -60,11 +61,11 @@ Mac 客户端仅作为顶部菜单栏常驻的 accessory 应用运行，不显�
 
 ## Windows 交接边界
 
-`windows/Program.cs` 仍是已有的一对一 WinForms 客户端草稿，已接入普通 FileDrop、长文字流、取消和接收文件夹入口，但不是已经完成的 Windows 群组 UI。`windows/PairingCrypto.cs` 是可供 Windows Codex 复用的 Rust SPAKE 桥接和配对加密实现；它不表示 Windows 的发现、群组管理、托盘流程或真实剪贴板运行已经完成。Windows 群组升级应以 `PAIRING_V2.md`、`PROTOCOL.md`、`pairing/Cargo.lock`、`pairing/build-windows.ps1` 和测试夹具为准，并合并目标 PC 已有的 DPAPI、图标和剪贴板修复，不能盲目覆盖。
+Windows 生产入口是 `windows/LightClip.Group/LightClip.Group.csproj`；`windows/LightClip/` 包含它链接的 Win32 剪贴板、内容协议和 DPAPI 公共文件。`windows/tests/` 是 PC 原始夹具，`windows/pairing/` 保留原 Rust 源码与锁文件，`windows/protocol/` 与仓库根协议逐字节一致。`windows/Program.cs` 和 `windows/LightClip.Windows.csproj` 为旧一对一参考版，不能作为生产入口。根目录跨平台配对和流式夹具已改为链接实际群组项目的共享类；旧 v1 互操作夹具仍使用历史参考实现，真实 Windows v1/STA 行为以 PC 报告和后续真机复核为准。
 
-需要交给 PC 上 Codex 时，群组流程使用 [`给PC上Codex的群组升级提示词.md`](给PC上Codex的群组升级提示词.md)，文件和大文字接线使用 [`给PC上Codex的文件升级提示词.md`](给PC上Codex的文件升级提示词.md)。两份提示词都要求先检查真实 PC 当前客户端，再合并共享协议和传输实现，不能把旧一对一草稿当作已完成的 Windows 群组。
+历史群组和文件升级交接材料仍保留供追踪；完整客户端已经导入，不必重新套用旧草稿。此次只需使用更新后的 `windows/build.ps1` 修复 native DLL 编译路径，复核 Windows 配对与运行包，再返回干净的完整交接包。
 
-当前仓库能在 Mac 上检查 Windows 目标代码、共享流式传输类和 native 配对桥的编译；Windows 端的流式类尚未等同于 Windows 托盘、WinForms、DPAPI、地址变化、多机或跨机 CrossPaste 验收。不能把 Mac 本机测试或协议夹具写成 Windows 群组已完成，也不能声称两端跨机已经验收。请按 [`tests/双机隔离验收.md`](tests/双机隔离验收.md) 分别验证 Mac→PC、PC→Mac、多 PC、重启恢复、DHCP 地址变化以及暂停后的负对照。
+Mac 侧已确认收到的完整 Windows 生产项目编译通过，零警告、零错误，并检查共享协议一致性。交接包报告 Windows 群组 81 项、流式 23 项、最终剪贴板 22 项、Rust 4 项和额外 6 项通过；这些是 PC 提供的结果，不能写成 Mac 代理亲自运行了 Windows。PC 报告中明确没有补做真实双机暂停负对照；第二台真实 PC、物理恢复和专项边界也未完整验收。保留这些边界，不把本机回环或用户反馈写成全矩阵通过。
 
 ## 协议和测试边界
 

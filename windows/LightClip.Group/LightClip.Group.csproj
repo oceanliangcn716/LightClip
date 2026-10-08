@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <AssemblyName>LightClip</AssemblyName><Version>0.3.0</Version><ApplicationIcon>assets/LightClip.ico</ApplicationIcon>
+    <ApplicationManifest>../LightClip/app.manifest</ApplicationManifest>
+    <ServerGarbageCollection>false</ServerGarbageCollection><TieredCompilation>false</TieredCompilation><DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../LightClip/Protocol.cs" Link="Protocol.cs" />
+    <Compile Include="../LightClip/NativeClipboard.cs" Link="NativeClipboard.cs" />
+    <Compile Include="../LightClip/Config.cs" Link="LegacyDpapi.cs" />
+    <None Include="native/lightclip_pairing.dll" Link="lightclip_pairing.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="assets/LightClip.ico" Link="LightClip.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="THIRD_PARTY_NOTICES.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
+
