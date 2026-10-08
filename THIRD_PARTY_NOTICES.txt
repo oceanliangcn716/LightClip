@@ -1,4 +1,4 @@
-LightClip 0.3.0 third-party notices
+LightClip 0.3.1 third-party notices
 
 This file is generated from pairing/Cargo.lock and the fetched Cargo registry sources.
 It includes license, copying, and notice files for every registry package in the lockfile,

@@ -28,11 +28,11 @@ paths = sorted(set(paths))
 for path in paths:
     if not path.is_file() or path.is_symlink():
         raise RuntimeError("A required regular source file is missing")
-destination = root / "dist/LightClip-Windows-0.3.0-文件同步升级.zip"
+destination = root / "dist/LightClip-Windows-0.3.1-文件同步升级.zip"
 destination.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(destination, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     for path in paths:
-        archive.write(path, str(Path("LightClip-0.3.0") / path.relative_to(root)))
+        archive.write(path, str(Path("LightClip-0.3.1") / path.relative_to(root)))
 with zipfile.ZipFile(destination) as archive:
     if archive.testzip() is not None:
         raise RuntimeError("Archive integrity check failed")

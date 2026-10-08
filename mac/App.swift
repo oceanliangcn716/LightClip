@@ -61,7 +61,7 @@ func numericAddress(_ text: String) -> Bool {
     return inet_pton(AF_INET, text, &v4) == 1 || inet_pton(AF_INET6, text, &v6) == 1
 }
 
-final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate {
+final class App: NSObject, NSApplicationDelegate, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate {
     private let engine = SyncEngine()
     private let board = ClipBoard()
     private let streams = StreamEngine()
@@ -97,7 +97,7 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
     private var paused: Bool { UserDefaults.standard.bool(forKey: "groupPaused") }
 
     func applicationDidFinishLaunching(_ note: Notification) {
-        NSApp.setActivationPolicy(.regular)
+        NSApp.setActivationPolicy(.accessory)
         buildMenu(); buildWindow()
         board.onStatus = { [weak self] in self?.status($0) }
         board.onLocalChange = { [weak self] in self?.engine.cancelSending(); self?.streams.cancelTransfers() }
@@ -165,6 +165,9 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
                 else if self.needsKeychainAccess { self.status("原有配对尚未读取；请点“重新读取配对”并完成系统授权") }
                 else { self.status("先创建群组，或选择下方设备输入配对码加入") }
                 self.refreshUI()
+                // Paired devices start quietly. Setup and recovery remain
+                // visible when there is no usable saved group.
+                if saved == nil { self.showWindow() }
             }
         }
         healthTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
@@ -178,7 +181,7 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
             self?.discovery.announceNow()
             if self?.group != nil { self?.activateGroup() }
         }
-        refreshUI(); showWindow()
+        refreshUI()
     }
     private var members: [NearbyDevice] { guard let group else { return [] }; return nearby.filter { $0.groupID == group.id } }
     private func recordReceived(_ kind: String) {
@@ -307,7 +310,10 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
     }
     @objc private func sendCurrent() { if engine.active { board.capture() } else { status("请先启用群组同步") } }
     @objc private func showWindow() { window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true) }
+    @objc private func hideWindow() { window.orderOut(nil) }
+    func windowShouldClose(_ sender: NSWindow) -> Bool { sender.orderOut(nil); return false }
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { showWindow(); return true }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
     @objc private func quit() { NSApp.terminate(nil) }
     func applicationWillTerminate(_ note: Notification) {
         healthTimer?.invalidate(); invitationExpiry?.cancel(); board.stop(); engine.stop(); streams.stop(); pairing.stop(); discovery.stop()
@@ -350,7 +356,9 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
     }
     private func buildMenu() {
         let main = NSMenu(), appMenu = NSMenu()
-        add(appMenu, "打开轻剪", #selector(showWindow)); appMenu.addItem(.separator())
+        add(appMenu, "打开轻剪", #selector(showWindow))
+        add(appMenu, "隐藏设置窗口", #selector(hideWindow)).keyEquivalent = "w"
+        appMenu.addItem(.separator())
         add(appMenu, "退出轻剪", #selector(quit)).keyEquivalent = "q"
         let appEntry = NSMenuItem(); appEntry.submenu = appMenu; main.addItem(appEntry)
         let edit = NSMenu(title: "编辑")
@@ -362,6 +370,7 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
         menuStatus = NSMenuItem(title: "正在启动…", action: nil, keyEquivalent: ""); menu.addItem(menuStatus)
         menuReceived = NSMenuItem(title: receiveLabel.stringValue, action: nil, keyEquivalent: ""); menu.addItem(menuReceived)
         menu.addItem(.separator()); add(menu, "打开轻剪…", #selector(showWindow))
+        add(menu, "隐藏设置窗口", #selector(hideWindow))
         menuPause = add(menu, "暂停同步", #selector(togglePause))
         add(menu, "测试群组连接", #selector(ping)); add(menu, "发送当前剪贴板", #selector(sendCurrent))
         add(menu, "取消当前传输", #selector(cancelTransfer)); add(menu, "打开接收文件夹…", #selector(openReceivedFiles))
@@ -375,7 +384,7 @@ final class App: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTable
     }
     private func buildWindow() {
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 680), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-        window.title = "轻剪 · 局域网同步群组"; window.isReleasedWhenClosed = false; window.center()
+        window.title = "轻剪 · 局域网同步群组"; window.delegate = self; window.isReleasedWhenClosed = false; window.center()
         label("让剪贴板在你的设备间流动", y: 626, height: 34).font = .systemFont(ofSize: 23, weight: .semibold)
         _ = label("这台设备的名字", y: 594)
         nameField.stringValue = profile.name; nameField.frame = NSRect(x: 28, y: 564, width: 386, height: 26); nameField.target = self; nameField.action = #selector(saveName); window.contentView?.addSubview(nameField)

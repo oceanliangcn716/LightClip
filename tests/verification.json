@@ -1,6 +1,6 @@
 {
   "date": "2026-10-08",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scope": "Public synthetic fixtures only; isolated named pasteboards and loopback TCP/UDP. Actual Windows host not controlled or tested by this agent. User-reported real-device results are recorded separately.",
   "two_computer_isolation_acceptance": "NOT RUN. PC group UI, actual cross-machine discovery/DHCP/reboot and Windows runtime memory remain unverified. Keep CrossPaste stopped on both devices and run pause negative controls before attributing success.",
   "swift_self_test": "PASS: crypto/validation/replay; isolated text, PNG/TIFF/NSImage consumers, alpha/color, TIFF to PNG, image priority, single PNG/JPEG file-copy, multi-file/non-image/directory/concealed exclusion, echo suppression.",
@@ -12,7 +12,7 @@
   "content_dotnet_to_swift": "PASS: fragmented and 1MiB text, PNG readable as PNG/TIFF/NSImage, ping/matching ACK; replay/wrong key/stale/oversized rejected.",
   "content_swift_to_dotnet": "PASS: text, PNG, ping and matching authenticated ACK using actual windows/Protocol.cs.",
   "windows_target_compile": "PASS: final net10.0-windows WinForms draft including ordinary FileDrop, long text, stream listener/cancel/cache menu, shared stream and pairing classes compiled on Mac with zero warnings/errors. Actual PC group code must merge these changes; STA/Explorer/DPAPI runtime and group UI not verified on Windows.",
-  "mac_install": "Local development installation checked: bundle version, code signature, icon, stream listener and automatic-start UI. No user preferences, group identifiers, device names, keys or cache contents are included in this verification record. Actual reboot not tested.",
+  "mac_install": "PASS: installed 0.3.1/build5 bundle, signature, icon, saved-group recovery, file stream listener and enabled automatic-start UI. Packaged and installed executable hashes match. No user preferences, group identifiers, device names, keys or cache contents are included. Actual reboot not tested.",
   "memory": "Production paired GUI idle sample: RSS109408KiB (~106.8MiB), macOS footprint tool28MB, CPU0.0%. Earlier startup footprint26MB. These are brief samples, not a battery-life or sustained-load test. Complete isolated 5GiB sender+receiver test memory is recorded separately in stream_5gib_actual.",
   "license_notices": "PASS: notice file includes all 26 Cargo.lock dependencies and Rust standard-library copyright; copied into installed bundle.",
   "stream_swift_self_test": "PASS: record crypto/tamper, 10MiB text and 5GiB exact/+1 metadata limits, names/duplicates/symlinks, strict UTF8 cross-chunk, source mutation, offset and SHA rejection. Actual two-peer ordinary/multi-block/empty/image files, URL+PNG/TIFF consumers, exact 10MiB UTF8 clipboard, no echo, offline partial delivery, new clipboard protection, cancel cleanup, startup partial cleanup and text staging deletion.",
@@ -36,6 +36,16 @@
   "stream_csharp_text": "PASS: exact 10MiB text sent and received by C# stream core; not WinForms STA clipboard.",
   "crosspaste": "All automated tests use named pasteboards and independent loopback ports. CrossPaste isolation on the actual Windows host was not observed by this agent; real-device acceptance still requires the documented pause negative controls.",
   "user_reported_cross_machine": "2026-10-08: user reports the actual PC was upgraded and bidirectional file copy/paste works. Agent did not observe the PC, payload size, CrossPaste negative controls or full acceptance matrix; PC final source not yet merged into this repository.",
-  "release_build": "PASS: Swift explicit macOS14.0 target and MACOSX_DEPLOYMENT_TARGET14.0; Mach-O LC_BUILD_VERSION minos14.0 matches bundle metadata. arm64 build compiled and signature checked; macOS14 actual host and Intel runtime not tested. Existing installed working app was not replaced for this packaging-only deployment-target correction. Rust and Swift local build paths remapped; stripped debug-location symbols; release executable scan found no embedded local user-directory paths.",
-  "release_scope": "Private preview repository containing current Mac client and Windows shared/reference source; actual PC final group UI source not merged. No Windows final binary is released."
+  "release_build": "PASS: Swift explicit macOS14.0 target and MACOSX_DEPLOYMENT_TARGET14.0; Mach-O LC_BUILD_VERSION minos14.0 matches bundle metadata. arm64 build compiled and signature checked; macOS14 actual host and Intel runtime not tested. Installed 0.3.1/build5 has LSUIElement=true. Rust and Swift local build paths remapped; stripped debug-location symbols; release executable scan found no embedded local user-directory paths.",
+  "release_scope": "Private preview repository containing current Mac client and Windows shared/reference source; actual PC final group UI source not merged. No Windows final binary is released.",
+  "mac_menu_bar_mode": {
+    "version": "0.3.1/build5",
+    "runtime_activation_policy": "PASS: NSWorkspace reports the installed running application activationPolicy == accessory, active == false after hiding. This macOS policy excludes the Dock icon.",
+    "paired_recovery": "PASS: user approved final signed app Keychain access; actual settings show one connected same-group peer, file sync enabled and login auto-connect checkbox enabled. Original group was retained.",
+    "window_hide": "PASS: Cmd+W hides settings (CUA returned noWindowsAvailable); same installed process remains alive with discovery UDP49286 and TCP49287/49288/49289 listeners. No new clipboard payload was used during this UI test.",
+    "red_close": "Source reviewed: NSWindowDelegate orders the window out and returns false; last-window closure does not terminate the application. Direct click verification was interrupted by concurrent user input and is not recorded as passed.",
+    "quiet_start": "Initial final-version launch produced no normal settings window while saved pairing was being read; OS Keychain interaction and explicit reopen can bring settings forward. A complete unattended paired relaunch or OS reboot was not performed.",
+    "reopen": "App reopen and settings actions use the same showWindow handler. Reopen/hide was exercised on the initial 0.3.1 build before the explicit red-close hook; final paired settings were observed after Keychain approval. Final menu-icon click was not independently exercised.",
+    "scope": "First-use/recovery startup branches reviewed in source; actual OS reboot and Windows UI unchanged/unverified by this UI-only patch."
+  }
 }

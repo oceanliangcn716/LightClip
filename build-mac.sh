@@ -29,10 +29,11 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleName</key><string>轻剪</string>
 <key>CFBundleDisplayName</key><string>轻剪</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.3.0</string>
-<key>CFBundleVersion</key><string>4</string>
+<key>CFBundleShortVersionString</key><string>0.3.1</string>
+<key>CFBundleVersion</key><string>5</string>
 <key>CFBundleIconFile</key><string>LightClip.icns</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
+<key>LSUIElement</key><true/>
 <key>NSLocalNetworkUsageDescription</key><string>发现同一局域网的轻剪设备，并与已配对的群组加密同步剪贴板。</string>
 </dict></plist>
 PLIST
